@@ -5,6 +5,10 @@
 #include <sstream>
 #include <string>
 
+#include <glm/common.hpp>
+#include <glm/matrix.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 #include "shader.hpp"
 #include "logger.hpp"
 
@@ -79,6 +83,70 @@ Shader::Shader() {
     m_id = createShaderProgram();
 };
 
+Shader::~Shader() {
+    glDeleteProgram(m_id);
+}
+
 unsigned int Shader::ID() {
     return m_id;
+}
+
+void Shader::setMat4x4(const char *uniformName, const glm::mat4 &matrix, bool useProgram) {
+    if (useProgram) {
+        glUseProgram(m_id);
+    }
+
+    glUniformMatrix4fv(glGetUniformLocation(m_id, uniformName), 1, false, glm::value_ptr(matrix));
+}
+
+// GLM vec
+
+void Shader::setVec4f(const char *uniformName, const glm::vec4 &vector, bool useProgram) {
+    if (useProgram) {
+        glUseProgram(m_id);
+    }
+
+    glUniform4f(glGetUniformLocation(m_id, uniformName), vector.x, vector.y, vector.z, vector.w);
+}
+
+void Shader::setVec3f(const char *uniformName, const glm::vec3 &vector, bool useProgram) {
+    if (useProgram) {
+        glUseProgram(m_id);
+    }
+
+    glUniform3f(glGetUniformLocation(m_id, uniformName), vector.x, vector.y, vector.z);
+}
+
+void Shader::setVec2f(const char *uniformName, const glm::vec2 &vector, bool useProgram) {
+    if (useProgram) {
+        glUseProgram(m_id);
+    }
+
+    glUniform2f(glGetUniformLocation(m_id, uniformName), vector.x, vector.y);
+}
+
+// Raw Data
+
+void Shader::setVec4f(const char *uniformName, float x, float y, float z, float w, bool useProgram) {
+    if (useProgram) {
+        glUseProgram(m_id);
+    }
+
+    glUniform4f(glGetUniformLocation(m_id, uniformName), x, y, z, w);
+}
+
+void Shader::setVec3f(const char *uniformName, float x, float y, float z, bool useProgram) {
+    if (useProgram) {
+        glUseProgram(m_id);
+    }
+
+    glUniform3f(glGetUniformLocation(m_id, uniformName), x, y, z);
+}
+
+void Shader::setVec2f(const char *uniformName, float x, float y, bool useProgram) {
+    if (useProgram) {
+        glUseProgram(m_id);
+    }
+
+    glUniform2f(glGetUniformLocation(m_id, uniformName), x, y);
 }

@@ -115,6 +115,7 @@ void Game::stop() {
     m_running = false;
     Logger::log("Stopping Game!");
     window->cleanup();
+    renderer->cleanup();
     Logger::log("Terminating GLFW...");
     glfwTerminate();
 }

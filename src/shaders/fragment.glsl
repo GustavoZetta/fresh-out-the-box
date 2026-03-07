@@ -1,6 +1,6 @@
 #version 330 core
 
-in vec2 TexCoords;
+in vec2 texCoords;
 
 out vec4 color;
 

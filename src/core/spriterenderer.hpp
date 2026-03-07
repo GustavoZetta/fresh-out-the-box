@@ -15,10 +15,10 @@ class SpriteRenderer {
 
     void init();
     void render();
+    void cleanup();
 
   private:
     std::unique_ptr<Shader> shader;
-    std::unique_ptr<Texture> texture;
 
     std::vector<Sprite> spriteList;
 };

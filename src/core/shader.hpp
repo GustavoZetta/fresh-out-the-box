@@ -12,8 +12,21 @@ class Shader {
     // expect errors
     Shader();
 
+    // Deletes the shader program
+    ~Shader();
+
     // Returns the shader program ID
     unsigned int ID();
+
+    void setMat4x4(const char *uniformName, const glm::mat4 &matrix, bool useProgram);
+
+    void setVec4f(const char *uniformName, const glm::vec4 &vector, bool useProgram);
+    void setVec3f(const char *uniformName, const glm::vec3 &vector, bool useProgram);
+    void setVec2f(const char *uniformName, const glm::vec2 &vector, bool useProgram);
+
+    void setVec4f(const char *uniformName, float x, float y, float z, float w, bool useProgram);
+    void setVec3f(const char *uniformName, float x, float y, float z, bool useProgram);
+    void setVec2f(const char *uniformName, float x, float y, bool useProgram);
 
   private:
     // Puts the content of a file into a string and returns it (It doesn't care if it is shader code or not lol)
