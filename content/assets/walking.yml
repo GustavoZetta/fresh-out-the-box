@@ -1,0 +1,5 @@
+animation:
+  rows: 1
+  columns: 4
+  frames: 4
+  fps: 12

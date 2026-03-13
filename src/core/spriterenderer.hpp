@@ -7,7 +7,7 @@
 
 #include "gameobject.hpp"
 #include "shader.hpp"
-#include "texture.hpp"
+#include "sprite.hpp"
 
 class SpriteRenderer {
   public:
@@ -17,7 +17,7 @@ class SpriteRenderer {
     SpriteRenderer();
 
     void createScreen(); // Creates the VBO & VAO used to render
-    void drawSprite(Texture &texture, glm::vec3 color, glm::vec2 position, glm::vec2 size, float rotation); // Draws a sprite with just raw data
+    void drawSprite(Sprite &sprite, glm::vec3 color, glm::vec2 position, glm::vec2 size, float rotation); // Draws a sprite with just raw data
     void drawSprite(GameObject *obj); // Draws the data from a game object
 
     // Inits with a shader created by the ResourceManager

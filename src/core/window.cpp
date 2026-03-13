@@ -42,7 +42,7 @@ void Window::init() {
     glfwSetFramebufferSizeCallback(m_winId, s_framebufferSizeCallback);
     glfwSetCursorPosCallback(m_winId, s_cursorPosCallback);
 
-    glClearColor(0.125f, 0.8f, 0.95f, 1.0f);
+    glClearColor(0.55f, 0.05f, 0.6f, 1.0f);
     Logger::log("Window initialized!");
 }
 

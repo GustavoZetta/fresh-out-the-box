@@ -1,12 +1,12 @@
 #pragma once
 
-#include "texture.hpp"
+#include "sprite.hpp"
 #include <memory>
 #include <glm/common.hpp>
 
 class GameObject {
   public:
-    std::unique_ptr<Texture> texture;
+    std::unique_ptr<Sprite> sprite;
     glm::vec3 color;
 
     glm::vec2 position;
@@ -21,6 +21,6 @@ class GameObject {
     GameObject &operator=(GameObject &&) = default;
 
     // Picks up the ownership of the texture
-    void storeTexture(Texture texture);
+    void storeSprite(Sprite sprite);
     void moveTo(glm::vec2 position);
 };

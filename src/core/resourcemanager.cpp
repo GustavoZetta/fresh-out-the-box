@@ -1,6 +1,7 @@
 #include "../native/glglfw.h"
 #include "../native/stb_image.h"
 
+#include "yaml-cpp/yaml.h"
 #include "util.hpp"
 
 #include <fstream>
@@ -8,11 +9,11 @@
 
 #include "resourcemanager.hpp"
 
-Texture ResourceManager::loadTexture(const std::string &filePath, bool alpha) {
-    Texture texture;
+Sprite ResourceManager::loadSprite(const std::string &filePath, bool alpha) {
+    Sprite sprite;
     if (alpha) { // TODO: Fix alpha (Some images work, some dont)
-        texture.internal_format = GL_RGBA;
-        texture.img_format = GL_RGBA;
+        sprite.internal_format = GL_RGBA;
+        sprite.img_format = GL_RGBA;
     }
 
     int width;
@@ -25,10 +26,10 @@ Texture ResourceManager::loadTexture(const std::string &filePath, bool alpha) {
         Logger::log("Reason: " + std::string(stbi_failure_reason()));
     } 
 
-    texture.createTexture(width, height, data);
+    sprite.createSprite(width, height, data);
     stbi_image_free(data);
 
-    return texture;
+    return sprite;
 }
 
 Shader ResourceManager::loadShader(const std::string &vertexPath, const std::string &fragmentPath) {

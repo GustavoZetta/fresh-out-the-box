@@ -4,7 +4,7 @@
 #include "player.hpp"
 
 Player::Player() : GameObject() {
-    storeTexture(ResourceManager::loadTexture(Common::getContentPath() + "/assets/player.png", false));
+    storeSprite(ResourceManager::loadSprite(Common::getContentPath() + "/assets/player.png", false));
 
     size = glm::vec2(100.0f);
 }

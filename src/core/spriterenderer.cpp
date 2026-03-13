@@ -34,7 +34,7 @@ void SpriteRenderer::createScreen() {
     glBindVertexArray(0);
 }
 
-void SpriteRenderer::drawSprite(Texture &texture, glm::vec3 color, glm::vec2 position, glm::vec2 size, float rotation) {
+void SpriteRenderer::drawSprite(Sprite &sprite, glm::vec3 color, glm::vec2 position, glm::vec2 size, float rotation) {
     glUseProgram(shader->ID());
 
     glm::mat4 model = glm::mat4(1.0f);
@@ -51,7 +51,7 @@ void SpriteRenderer::drawSprite(Texture &texture, glm::vec3 color, glm::vec2 pos
     shader->setVec3f("spriteColor", color, false);
 
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, texture.ID());
+    glBindTexture(GL_TEXTURE_2D, sprite.ID());
 
     glBindVertexArray(m_VAO);
     glDrawArrays(GL_TRIANGLES, 0, 6);
@@ -75,7 +75,7 @@ void SpriteRenderer::drawSprite(GameObject *obj) {
     shader->setVec3f("spriteColor", obj->color, false);
 
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, obj->texture->ID());
+    glBindTexture(GL_TEXTURE_2D, obj->sprite->ID());
 
     glBindVertexArray(m_VAO);
     glDrawArrays(GL_TRIANGLES, 0, 6);

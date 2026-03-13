@@ -23,8 +23,8 @@ add_executable(JamGame
     src/core/spriterenderer.hpp
     src/core/shader.cpp
     src/core/shader.hpp
-    src/core/texture.cpp
-    src/core/texture.hpp
+    src/core/sprite.cpp
+    src/core/sprite.hpp
 
     src/game/player.cpp
     src/game/player.hpp
@@ -37,10 +37,20 @@ add_executable(JamGame
     src/native/stb.cpp
 )
 
+include(FetchContent)
+
+FetchContent_Declare(
+  yaml-cpp
+  GIT_REPOSITORY https://github.com/jbeder/yaml-cpp.git
+  GIT_TAG yaml-cpp-0.9.0
+)
+FetchContent_MakeAvailable(yaml-cpp)
+
 target_include_directories(JamGame PRIVATE dependencies)
 target_link_directories(JamGame PRIVATE lib)
 
 target_link_libraries(JamGame
     glfw3
     OpenGL::GL
+    yaml-cpp::yaml-cpp
 )
