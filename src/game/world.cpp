@@ -17,3 +17,11 @@ World::World() : player(nullptr) {
 
     objects.emplace_back(std::move(obj));
 }
+
+void World::update(float deltaTime) {
+    player->update(deltaTime);
+    bg->update(deltaTime);
+    for (GameObject &obj : objects) {
+        obj.update(deltaTime);
+    }
+}

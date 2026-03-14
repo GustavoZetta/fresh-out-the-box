@@ -37,6 +37,7 @@ void SpriteRenderer::createScreen() {
 void SpriteRenderer::drawSprite(Sprite &sprite, glm::vec3 color, glm::vec2 position, glm::vec2 size, float rotation) {
     glUseProgram(shader->ID());
 
+    // Position
     glm::mat4 model = glm::mat4(1.0f);
 
     model = glm::translate(model, glm::vec3(position, 0.0f));
@@ -50,6 +51,17 @@ void SpriteRenderer::drawSprite(Sprite &sprite, glm::vec3 color, glm::vec2 posit
     shader->setMat4x4("model", model, false);
     shader->setVec3f("spriteColor", color, false);
 
+    // Animation
+    glm::vec2 uvOffset = glm::vec2(0.0f);
+    glm::vec2 uvSize = glm::vec2(1.0f);
+
+    uvOffset = sprite.animInfo->getUVOffset();
+    uvSize = sprite.animInfo->getUVSize();
+
+    shader->setVec2f("uvOffset", uvOffset, false);
+    shader->setVec2f("uvSize", uvSize, false);
+
+    // Texture
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, sprite.ID());
 
@@ -61,6 +73,7 @@ void SpriteRenderer::drawSprite(Sprite &sprite, glm::vec3 color, glm::vec2 posit
 void SpriteRenderer::drawSprite(GameObject *obj) {
     glUseProgram(shader->ID());
 
+    // Position
     glm::mat4 model = glm::mat4(1.0f);
 
     model = glm::translate(model, glm::vec3(obj->position, 0.0f));
@@ -74,6 +87,17 @@ void SpriteRenderer::drawSprite(GameObject *obj) {
     shader->setMat4x4("model", model, false);
     shader->setVec3f("spriteColor", obj->color, false);
 
+    // Animation
+    glm::vec2 uvOffset = glm::vec2(0.0f);
+    glm::vec2 uvSize = glm::vec2(1.0f);
+
+    uvOffset = obj->sprite->animInfo->getUVOffset();
+    uvSize = obj->sprite->animInfo->getUVSize();
+
+    shader->setVec2f("uvOffset", uvOffset, false);
+    shader->setVec2f("uvSize", uvSize, false);
+
+    // Textures
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, obj->sprite->ID());
 

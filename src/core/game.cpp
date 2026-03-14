@@ -40,6 +40,7 @@ void Game::processInput(float deltaTime) {
 }
 
 void Game::update(float deltaTime) {
+    world->update(deltaTime);
 }
 
 void Game::render() {

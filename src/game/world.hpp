@@ -12,4 +12,6 @@ class World {
 
   public:
     World();
+
+    void update(float deltaTime);
 };

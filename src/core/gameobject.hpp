@@ -23,4 +23,7 @@ class GameObject {
     // Picks up the ownership of the texture
     void storeSprite(Sprite sprite);
     void moveTo(glm::vec2 position);
+
+    // Should be called every frame
+    void update(float deltaTime);
 };

@@ -2,19 +2,19 @@
 
 #include "sprite.hpp"
 
-
-
 // Anim Info
 
-SpriteAnimationInfo::SpriteAnimationInfo(int cols, int rows, float frameDuration)
-    : cols(cols), rows(rows), totalFrames(cols * rows),
-      currentFrame(0), frameDuration(frameDuration), timer(0.0f) {}
+SpriteAnimationInfo::SpriteAnimationInfo(int rows, int cols, int fps, int frames)
+    : cols(cols), rows(rows), totalFrames(frames),
+      currentFrame(0), frameDuration(1.0f / fps), timer(0.0f) {}
 
 void SpriteAnimationInfo::update(float deltaTime) {
-    timer += deltaTime;
-    if (timer >= frameDuration) {
-        timer = 0.0f;
-        currentFrame = (currentFrame + 1) % totalFrames;
+    if (totalFrames != 1) {
+        timer += deltaTime;
+        if (timer >= frameDuration) {
+            timer = 0.0f;
+            currentFrame = (currentFrame + 1) % totalFrames;
+        }
     }
 }
 
@@ -33,15 +33,6 @@ glm::vec2 SpriteAnimationInfo::getUVSize() const {
 // Sprite
 
 Sprite::Sprite() : m_id(0), animInfo(nullptr), width(0), height(0), internal_format(GL_RGB), img_format(GL_RGB), min_filter_mode(GL_NEAREST), max_filter_mode(GL_NEAREST), wrap_mode_s(GL_REPEAT), wrap_mode_t(GL_REPEAT) {}
-
-Sprite::Sprite(Sprite &&other)
-    : animInfo(nullptr), width(other.width), height(other.height),
-      img_format(other.img_format), internal_format(other.internal_format),
-      min_filter_mode(other.min_filter_mode), max_filter_mode(other.max_filter_mode),
-      wrap_mode_s(other.wrap_mode_s), wrap_mode_t(other.wrap_mode_t),
-      m_id(other.m_id) {
-    other.m_id = 0;
-}
 
 Sprite::~Sprite() {
     glDeleteTextures(1, &m_id);
@@ -70,6 +61,12 @@ void Sprite::createSprite(int w, int h, unsigned char *data) {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, max_filter_mode);
 
     glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+void Sprite::update(float deltaTime) {
+    if (animInfo != nullptr) {
+        animInfo->update(deltaTime);
+    }
 }
 
 unsigned int Sprite::ID() {

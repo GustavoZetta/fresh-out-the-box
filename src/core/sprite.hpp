@@ -16,7 +16,7 @@ class SpriteAnimationInfo {
     float timer;
 
   public:
-    SpriteAnimationInfo(int cols, int rows, float frameDuration);
+    SpriteAnimationInfo(int rows, int columns, int fps, int frames);
 
     void update(float deltaTime);
 
@@ -46,7 +46,14 @@ class Sprite {
     Sprite();
     ~Sprite();
 
-    Sprite(Sprite &&other) noexcept;
+    Sprite(Sprite &&other) noexcept
+        : animInfo(std::move(other.animInfo)), width(other.width), height(other.height),
+          img_format(other.img_format), internal_format(other.internal_format),
+          min_filter_mode(other.min_filter_mode), max_filter_mode(other.max_filter_mode),
+          wrap_mode_s(other.wrap_mode_s), wrap_mode_t(other.wrap_mode_t),
+          m_id(other.m_id) {
+        other.m_id = 0;
+    }
 
     Sprite &operator=(Sprite &&other) noexcept {
         if (this != &other) {
@@ -70,6 +77,9 @@ class Sprite {
 
     // Creates the Open GL texture
     void createSprite(int width, int height, unsigned char *data);
+
+    // Should be called every frame (Updates the animations)
+    void update(float deltaTime);
 
     // Returns the OpenGL Texture ID
     unsigned int ID();

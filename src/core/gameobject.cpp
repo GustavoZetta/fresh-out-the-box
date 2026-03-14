@@ -10,3 +10,7 @@ void GameObject::storeSprite(Sprite s) {
 void GameObject::moveTo(glm::vec2 pos) {
     position = pos;
 }
+
+void GameObject::update(float deltaTime) {
+    sprite->update(deltaTime);
+}
