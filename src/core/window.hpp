@@ -9,6 +9,10 @@ class Window {
     int height;
     int width;
 
+    // Defines the GL Viewport aspect ratio
+    const static float aspectRatioX;
+    const static float aspectRatioY;
+
     double mouseX;
     double mouseY;
 

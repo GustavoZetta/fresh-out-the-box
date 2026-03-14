@@ -3,9 +3,6 @@ This is a project to the [Bad Ideas Game Jam](https://itch.io/jam/bad-ideas-game
 <br>
 Game made with some code from learnopengl.com
 
-## Main Idea
-Its a game about scalpers lol
-
 ## Compiling
 ### Dependencies
 The game uses four dependencies:
@@ -13,6 +10,7 @@ The game uses four dependencies:
 * [GLAD](https://glad.dav1d.de/)
 * [GLM](https://glm.g-truc.net/0.9.8/index.html)
 * [STB Image](https://github.com/nothings/stb/blob/master/stb_image.h)
+* [YAML-Cpp](https://github.com/jbeder/yaml-cpp)
 <br>
 If there are some kind of error involving those, try to download your machine specific binary <br>
 Later, automatic dependency download will be added

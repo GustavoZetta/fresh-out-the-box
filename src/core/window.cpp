@@ -2,6 +2,9 @@
 #include "window.hpp"
 #include "util.hpp"
 
+const float Window::aspectRatioX = 16.0f;
+const float Window::aspectRatioY = 9.0f;
+
 Window::Window(const std::string &title, int w, int h) : m_title(title), width(w), height(h) {}
 
 void Window::init() {
@@ -42,7 +45,13 @@ void Window::init() {
     glfwSetFramebufferSizeCallback(m_winId, s_framebufferSizeCallback);
     glfwSetCursorPosCallback(m_winId, s_cursorPosCallback);
 
-    glClearColor(0.55f, 0.05f, 0.6f, 1.0f);
+    // Set correct OpenGL viewport in the first program size
+    s_framebufferSizeCallback(m_winId, width, height);
+
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     Logger::log("Window initialized!");
 }
 
@@ -86,9 +95,25 @@ void Window::s_framebufferSizeCallback(GLFWwindow *winId, int w, int h) {
     winObj->height = h;
     winObj->width = w;
 
-    // glViewport sets the size of the render so OpenGL can operate just fine.
-    glViewport(0, 0, w, h);
+    // Math to setting up the glViewport to the center of the screen
+    const float targetRatio = aspectRatioX / aspectRatioY;
+
+    int viewW, viewH;
+
+    viewW = w;
+    viewH = (int)(w / targetRatio);
+
+    if (viewH > h) {
+        viewH = h;
+        viewW = (int)(h * targetRatio);
+    }
+
+    int offsetX = (w - viewW) / 2;
+    int offsetY = (h - viewH) / 2;
+
+    glViewport(offsetX, offsetY, viewW, viewH);
 }
+
 void Window::s_cursorPosCallback(GLFWwindow *winId, double x, double y) {
     // Window User Pointer is a way in GLFW to store a pointer,
     // in this case, the Window class pointer.

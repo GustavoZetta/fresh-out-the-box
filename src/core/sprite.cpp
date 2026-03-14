@@ -9,12 +9,10 @@ SpriteAnimationInfo::SpriteAnimationInfo(int rows, int cols, int fps, int frames
       currentFrame(0), frameDuration(1.0f / fps), timer(0.0f) {}
 
 void SpriteAnimationInfo::update(float deltaTime) {
-    if (totalFrames != 1) {
-        timer += deltaTime;
-        if (timer >= frameDuration) {
-            timer = 0.0f;
-            currentFrame = (currentFrame + 1) % totalFrames;
-        }
+    timer += deltaTime;
+    if (timer >= frameDuration) {
+        timer = 0.0f;
+        currentFrame = (currentFrame + 1) % totalFrames;
     }
 }
 

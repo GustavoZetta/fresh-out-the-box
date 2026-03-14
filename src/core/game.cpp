@@ -58,7 +58,7 @@ void Game::render() {
 void Game::init() {
     Logger::log("Initializing Game...");
 
-    window = std::make_unique<Window>("Fresh out the box", 800, 600);
+    window = std::make_unique<Window>("Fresh out the box", 800, 450);
     renderer = std::make_unique<SpriteRenderer>();
 
     window->init();
@@ -77,7 +77,7 @@ void Game::run() {
     Logger::log("Starting Game Loop...");
     const std::string wt = window->getTitle();
 
-    glm::mat4 projection = glm::ortho(0.0f, 800.0f, 600.0f, 0.0f, -1.0f, 1.0f);
+    glm::mat4 projection = glm::ortho(0.0f, 800.0f, 450.0f, 0.0f, -1.0f, 1.0f); // needs to be in the same AspectRatio as the window
     renderer->shader->setMat4x4("projection", projection, true);
 
     auto lastTime = std::chrono::steady_clock::now();
