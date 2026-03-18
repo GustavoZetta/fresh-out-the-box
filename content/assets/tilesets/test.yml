@@ -1,2 +1,22 @@
-tileset:
-  
+gridsize: 32 # multiplies height & width by (32 * 1, for example)
+tileset: # These chars are used in the scene
+  '#':
+    x: 0
+    y: 0
+    height: 1
+    width: 1
+  'G':
+    x: 1
+    y: 0
+    height: 1
+    width: 1
+  '&':
+    x: 2
+    y: 0
+    height: 1
+    width: 1
+  'S':
+    x: 3
+    y: 0
+    height: 1
+    width: 1

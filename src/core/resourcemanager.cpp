@@ -78,19 +78,21 @@ std::unique_ptr<AnimatedSprite> ResourceManager::loadSprite(const std::string &i
 
 // Texture Atlas
 
-// TODO: Implement texture atlas
 std::unique_ptr<TextureAtlas> ResourceManager::loadAtlas(const std::string &imagePath, const std::string &configPath, bool alpha) {
-    std::unique_ptr<TextureAtlas> atlas = std::make_unique<TextureAtlas>(std::make_unique<Sprite>());
-
     YAML::Node config = YAML::LoadFile(configPath);
 
+    YAML::Node tilesetInfo = config["tileset"];
+    if (!tilesetInfo.IsMap()) {
+        Logger::log("Unable to load tileset info: " + configPath);
+    }
 
+    std::unique_ptr<TextureAtlas> atlas = std::make_unique<TextureAtlas>(std::make_unique<Sprite>(), tilesetInfo.size());
 
     if (alpha) {
         atlas->sprite->internal_format = GL_RGBA;
         atlas->sprite->img_format = GL_RGBA;
     }
-    
+
     int width;
     int height;
     int nrChannels;
@@ -103,8 +105,39 @@ std::unique_ptr<TextureAtlas> ResourceManager::loadAtlas(const std::string &imag
 
     atlas->sprite->createSprite(width, height, data);
     stbi_image_free(data);
+    
+    int gridsize = config["gridsize"].as<int>(32);
+
+    if (width % gridsize != 0 || height % gridsize != 0) {
+        Logger::log("Warning: Texture atlas does not have simetric grid, textures may be clipped");
+        Logger::log("Config path: " + configPath);
+        Logger::log("Image path: " + imagePath);
+    }
+    
+    for (auto it : tilesetInfo) {
+        std::string name = it.first.as<std::string>("");
+        int x = it.second["x"].as<int>(0);
+        int y = it.second["y"].as<int>(0);
+        int width = it.second["width"].as<int>(1) * gridsize;
+        int height = it.second["height"].as<int>(1) * gridsize;
+
+        atlas->addEntry(name, x, y, width, height);
+    }
 
     return std::move(atlas);
+}
+
+// Scene
+
+std::unique_ptr<Scene> ResourceManager::loadScene(const std::string &scenePath, std::unique_ptr<TextureAtlas> sceneAtlas) {
+    YAML::Node config = YAML::LoadFile(scenePath);
+
+    YAML::Node sceneInfo = config["scene.yml"];
+    if (!sceneInfo.IsMap()) {
+        Logger::log("Unable to load scene info: " + scenePath);
+    }
+
+    std::unique_ptr<Scene> scene = std::make_unique<Scene>(std::move(sceneAtlas)); 
 }
 
 // Shader

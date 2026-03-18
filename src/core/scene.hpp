@@ -5,10 +5,11 @@
 
 class Scene {
   public:
+    std::unique_ptr<TextureAtlas> atlas;
     std::vector<GameObject> objects;
 
   public:
-    static Scene loadScene(const std::string &scenePath, const std::string &configPath);
+    Scene(std::unique_ptr<TextureAtlas> atlas);
 
     void update(float deltaTime);
 };

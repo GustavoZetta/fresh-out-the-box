@@ -73,6 +73,8 @@ void SpriteRenderer::drawObject(GameObject *obj) {
         uvOffset = entry.uvOffset;
         uvSize = entry.uvSize;
         break;
+    default:
+        break;
     }
 
     shader->setVec2f("uvOffset", uvOffset, false);

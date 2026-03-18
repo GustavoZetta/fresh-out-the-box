@@ -4,6 +4,11 @@ TextureAtlas::TextureAtlas(std::unique_ptr<Sprite> spr) : sprite(nullptr) {
     sprite = std::move(spr);
 }
 
+TextureAtlas::TextureAtlas(std::unique_ptr<Sprite> spr, int amountToAlloc) : sprite(nullptr) {
+    sprite = std::move(spr);
+    m_entries.reserve(amountToAlloc);
+}
+
 void TextureAtlas::addEntry(const std::string &name, int x, int y, int w, int h) {
     AtlasEntry entry;
     entry.uvOffset = glm::vec2(

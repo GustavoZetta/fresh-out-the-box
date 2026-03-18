@@ -1,14 +1,8 @@
-tilesets:
-  "tile1":
-    img_path: "/assets/tile1.png"
-chars:
-  "#":
+nullchar: "~"
+sceneobjects:
+  'ground':
+    z-index: 0
+    path: "/scenes/scene1_0.scene"
+  'features': 
     z-index: 1
-    tileset: "tile1"
-    x: 1
-    y: 1
-  "A":
-    z-index: 1
-    tileset: "tile1"
-    x: 2
-    y: 1
+    path: "/scenes/scene1_1.scene"
