@@ -31,6 +31,8 @@ class GameObject {
 
     float rotation;
 
+    int zIndex;
+
   public:
     GameObject();
 

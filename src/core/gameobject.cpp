@@ -1,6 +1,6 @@
 #include "core/gameobject.hpp"
 
-GameObject::GameObject() : staticSprite(nullptr), animatedSprite(nullptr), textureAtlas(nullptr), color(glm::vec3(1.0f)), position(glm::vec2(0.0f)), size(glm::vec2(0.0f)), rotation(0.0f) {}
+GameObject::GameObject() : staticSprite(nullptr), animatedSprite(nullptr), textureAtlas(nullptr), color(glm::vec3(1.0f)), position(glm::vec2(0.0f)), size(glm::vec2(0.0f)), rotation(0.0f), zIndex(0) {}
 
 unsigned int GameObject::getSpriteID() {
     switch (sprType) {

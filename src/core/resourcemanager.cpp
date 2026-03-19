@@ -1,13 +1,15 @@
 #include "native/glglfw.h"
 #include "native/stb_image.h"
 
-#include "util.hpp"
+#include "core/util.hpp"
 
 #include "yaml-cpp/yaml.h"
 
 #include <fstream>
 #include <memory>
 #include <sstream>
+
+#include "core/game.hpp"
 
 #include "core/resourcemanager.hpp"
 
@@ -105,7 +107,7 @@ std::unique_ptr<TextureAtlas> ResourceManager::loadAtlas(const std::string &imag
 
     atlas->sprite->createSprite(width, height, data);
     stbi_image_free(data);
-    
+
     int gridsize = config["gridsize"].as<int>(32);
 
     if (width % gridsize != 0 || height % gridsize != 0) {
@@ -113,7 +115,7 @@ std::unique_ptr<TextureAtlas> ResourceManager::loadAtlas(const std::string &imag
         Logger::log("Config path: " + configPath);
         Logger::log("Image path: " + imagePath);
     }
-    
+
     for (auto it : tilesetInfo) {
         std::string name = it.first.as<std::string>("");
         int x = it.second["x"].as<int>(0);
@@ -132,12 +134,55 @@ std::unique_ptr<TextureAtlas> ResourceManager::loadAtlas(const std::string &imag
 std::unique_ptr<Scene> ResourceManager::loadScene(const std::string &scenePath, std::unique_ptr<TextureAtlas> sceneAtlas) {
     YAML::Node config = YAML::LoadFile(scenePath);
 
-    YAML::Node sceneInfo = config["scene.yml"];
+    std::string nullchar = config["nullchar"].as<std::string>("~");
+    YAML::Node sceneInfo = config["sprites"];
     if (!sceneInfo.IsMap()) {
         Logger::log("Unable to load scene info: " + scenePath);
     }
 
-    std::unique_ptr<Scene> scene = std::make_unique<Scene>(std::move(sceneAtlas)); 
+    std::unique_ptr<Scene> scene = std::make_unique<Scene>(std::move(sceneAtlas));
+
+    scene->sprites.reserve(32);
+
+    for (auto it : sceneInfo) {
+        int zIndex = it.second["z-index"].as<int>(0);
+        std::string path = it.second["path"].as<std::string>("scene.scene");
+
+        std::string line;
+        std::ifstream fstream(path);
+        if (fstream) {
+            int y = 0;
+            int x = 0;
+
+            while (std::getline(fstream, line)) { // reads entire line
+                std::string token;
+
+                std::istringstream sstream(line);
+
+                while (sstream >> token) {  // reads each word separated by space
+                    if (token != nullchar) {
+                        GameObject object;
+
+                        object.atlasKey = token;
+                        object.zIndex = zIndex;
+
+                        object.size = glm::vec2(Game::objectSize);
+                        object.position = glm::vec2(
+                            Game::objectSize * x,
+                            Game::objectSize * y);
+
+                        scene->sprites.push_back(std::move(object));
+                    }
+                    x++;
+                }
+                y++;
+            }
+        }
+    }
+
+    scene->sortSprites();
+
+    return std::move(scene);
 }
 
 // Shader

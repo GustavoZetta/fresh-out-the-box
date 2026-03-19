@@ -11,6 +11,8 @@
 
 #include "core/game.hpp"
 
+const float Game::objectSize = 20.0f;
+
 Game::Game()
     : window(nullptr),
       renderer(nullptr),

@@ -1,5 +1,5 @@
 nullchar: "~"
-sceneobjects:
+sprites:
   'ground':
     z-index: 0
     path: "/scenes/scene1_0.scene"

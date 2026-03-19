@@ -23,6 +23,8 @@ class Game {
 
     int fps = 0;
 
+    static const float objectSize;
+
   public:
     // Starts the default variables and sets the
     // window title and the debug variable in the constructor.
