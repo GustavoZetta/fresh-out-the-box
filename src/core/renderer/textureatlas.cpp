@@ -1,10 +1,10 @@
 #include "core/renderer/textureatlas.hpp"
 
-TextureAtlas::TextureAtlas(std::unique_ptr<Sprite> spr) : sprite(nullptr) {
+TextureAtlas::TextureAtlas(std::unique_ptr<Sprite> spr) {
     sprite = std::move(spr);
 }
 
-TextureAtlas::TextureAtlas(std::unique_ptr<Sprite> spr, int amountToAlloc) : sprite(nullptr) {
+TextureAtlas::TextureAtlas(std::unique_ptr<Sprite> spr, int amountToAlloc) {
     sprite = std::move(spr);
     m_entries.reserve(amountToAlloc);
 }

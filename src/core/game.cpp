@@ -11,7 +11,7 @@
 
 #include "core/game.hpp"
 
-const float Game::objectSize = 20.0f;
+const float Game::objectSize = 100.0f;
 
 Game::Game()
     : window(nullptr),
@@ -50,6 +50,9 @@ void Game::render() {
     glClear(GL_COLOR_BUFFER_BIT); // Can be GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT
 
     renderer->drawObject(world->bg.get());
+    for (GameObject &obj : world->scene->sprites) {
+        renderer->drawObject(&obj);
+    }
     for (GameObject &obj : world->objects) {
         renderer->drawObject(&obj);
     }
@@ -71,6 +74,8 @@ void Game::init() {
 
     Logger::log("Showing Window...");
     window->showWindow();
+
+    setFramerate(0);
 
     Logger::log("Game Initialized!");
     Logger::log("--------------------------------");
@@ -115,6 +120,7 @@ void Game::run() {
                 canRender = true;
             }
         } else {
+            delta = elapsedTime;
             canRender = true;
         }
 

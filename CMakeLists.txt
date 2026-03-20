@@ -3,45 +3,8 @@ project(JamGame VERSION 1.0.0)
 
 find_package(OpenGL REQUIRED)
 
-add_executable(JamGame
-    src/main.cpp
-
-    src/core/util.cpp
-    src/core/util.hpp
-
-    src/core/game.cpp
-    src/core/game.hpp
-    src/core/gameobject.cpp
-    src/core/gameobject.hpp
-
-    src/core/window.cpp
-    src/core/window.hpp
-    src/core/resourcemanager.cpp
-    src/core/resourcemanager.hpp
-    
-    src/core/renderer/spriterenderer.cpp
-    src/core/renderer/spriterenderer.hpp
-    src/core/renderer/shader.cpp
-    src/core/renderer/shader.hpp
-    src/core/renderer/sprite.cpp
-    src/core/renderer/sprite.hpp
-    src/core/renderer/animatedsprite.cpp
-    src/core/renderer/animatedsprite.hpp
-    src/core/renderer/staticsprite.cpp
-    src/core/renderer/staticsprite.hpp
-    src/core/renderer/textureatlas.cpp
-    src/core/renderer/textureatlas.hpp
-
-    src/game/player.cpp
-    src/game/player.hpp
-    src/game/world.cpp
-    src/game/world.hpp
-    
-    src/native/glglfw.h
-    src/native/gl.c
-    src/native/stb_image.h
-    src/native/stb.cpp
-)
+file(GLOB_RECURSE SOURCES "src/*.cpp" "src/*.c" "src/*.hpp" "src/*.h")
+add_executable(JamGame ${SOURCES})
 
 include(FetchContent)
 

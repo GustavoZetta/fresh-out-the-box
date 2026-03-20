@@ -1,8 +1,10 @@
-#include "scene.hpp"
 #include "util.hpp"
+
 #include "yaml-cpp/yaml.h"
 
-Scene::Scene(std::unique_ptr<TextureAtlas> sceneAtlas) : atlas(nullptr), tileSize(10.0f) {
+#include "scene.hpp"
+
+Scene::Scene(std::unique_ptr<TextureAtlas> sceneAtlas) : tileSize(10.0f) {
     atlas = std::move(sceneAtlas);
 }
 

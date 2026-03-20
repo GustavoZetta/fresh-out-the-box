@@ -88,7 +88,7 @@ std::unique_ptr<TextureAtlas> ResourceManager::loadAtlas(const std::string &imag
         Logger::log("Unable to load tileset info: " + configPath);
     }
 
-    std::unique_ptr<TextureAtlas> atlas = std::make_unique<TextureAtlas>(std::make_unique<Sprite>(), tilesetInfo.size());
+    std::unique_ptr<TextureAtlas> atlas = std::make_unique<TextureAtlas>(std::make_unique<Sprite>(), static_cast<int>(tilesetInfo.size()));
 
     if (alpha) {
         atlas->sprite->internal_format = GL_RGBA;
@@ -149,7 +149,7 @@ std::unique_ptr<Scene> ResourceManager::loadScene(const std::string &scenePath, 
         std::string path = it.second["path"].as<std::string>("scene.scene");
 
         std::string line;
-        std::ifstream fstream(path);
+        std::ifstream fstream(Common::getContentPath() + path);
         if (fstream) {
             int y = 0;
             int x = 0;
@@ -161,8 +161,10 @@ std::unique_ptr<Scene> ResourceManager::loadScene(const std::string &scenePath, 
 
                 while (sstream >> token) {  // reads each word separated by space
                     if (token != nullchar) {
+                        
                         GameObject object;
 
+                        object.setAtlas(scene->atlas.get());
                         object.atlasKey = token;
                         object.zIndex = zIndex;
 
@@ -171,10 +173,13 @@ std::unique_ptr<Scene> ResourceManager::loadScene(const std::string &scenePath, 
                             Game::objectSize * x,
                             Game::objectSize * y);
 
+                        Logger::log(token + " " + std::to_string(x) + " " + std::to_string(y));
+
                         scene->sprites.push_back(std::move(object));
                     }
                     x++;
                 }
+                x = 0;
                 y++;
             }
         }

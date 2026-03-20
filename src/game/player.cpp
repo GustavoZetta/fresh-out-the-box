@@ -1,7 +1,7 @@
-#include "../core/resourcemanager.hpp"
-#include "../core/util.hpp"
+#include "core/resourcemanager.hpp"
+#include "core/util.hpp"
 
-#include "player.hpp"
+#include "game/player.hpp"
 
 Player::Player() : GameObject(), playerSpeed(100.0f) {
     std::unique_ptr<AnimatedSprite> animatedSpr = ResourceManager::loadSprite(
