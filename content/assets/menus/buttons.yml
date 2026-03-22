@@ -1,0 +1,22 @@
+gridsize: 10 # multiplies height, width, x and y (32 * x, 32 * y...)
+tileset: # These chars are used in the scene
+  'play':
+    x: 0
+    y: 0
+    height: 6
+    width: 10
+  'play_1':
+    x: 10
+    y: 0
+    height: 6
+    width: 10
+  'quit':
+    x: 20
+    y: 0
+    height: 6
+    width: 10
+  'quit_1':
+    x: 30
+    y: 0
+    height: 6
+    width: 10

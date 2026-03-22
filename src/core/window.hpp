@@ -2,7 +2,10 @@
 
 #include "native/glglfw.h"
 
+#include <glm/common.hpp>
+
 #include <string>
+#include <unordered_map>
 
 class Window {
   public:
@@ -31,6 +34,7 @@ class Window {
 
     bool shouldClose();
     bool isKeyPressed(int key);
+    bool isMouseButtonPressed(int button);
 
     void showWindow();
     void setTitle(const std::string &title);
@@ -44,7 +48,11 @@ class Window {
     // An callback that sets the mouseX and mouseY when its in the window
     static void s_cursorPosCallback(GLFWwindow *win, double mouseX, double mouseY);
 
+    // Returns the mouse coords in game coords so its easier to use
+    glm::vec2 getMouseGameCoords(float gameWidth, float gameHeight); 
+
   private:
+    std::unordered_map<int, bool> m_prevMouseButtons;
     GLFWwindow *m_winId;
 
     std::string m_title;

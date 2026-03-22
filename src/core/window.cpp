@@ -74,6 +74,13 @@ bool Window::isKeyPressed(int key) {
     return glfwGetKey(m_winId, key);
 }
 
+bool Window::isMouseButtonPressed(int button) {
+    bool current = glfwGetMouseButton(m_winId, button) == GLFW_PRESS;
+    bool wasPressed = m_prevMouseButtons[button];
+    m_prevMouseButtons[button] = current;
+    return current && !wasPressed;
+}
+
 bool Window::shouldClose() {
     return glfwWindowShouldClose(m_winId);
 }
@@ -125,4 +132,13 @@ void Window::s_cursorPosCallback(GLFWwindow *winId, double x, double y) {
 
 GLFWwindow *Window::getWindowID() {
     return m_winId;
+}
+
+
+glm::vec2 Window::getMouseGameCoords(float gameWidth, float gameHeight) {
+    float normalX = (float)mouseX / width;
+    float normalY = (float)mouseY / height;
+
+    // converte para coordenadas do jogo
+    return glm::vec2(normalX * gameWidth, normalY * gameHeight);
 }

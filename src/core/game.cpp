@@ -12,21 +12,53 @@
 #include "core/game.hpp"
 
 const float Game::objectSize = 64.0f;
+const float Game::gameWidth = 640.0f;
+const float Game::gameHeight = 360.0f;
 
 Game::Game()
     : window(nullptr),
       renderer(nullptr),
       world(nullptr),
       m_running(false),
+      m_shouldStop(false),
       state(GameState::MAIN_MENU) {}
 
 // Game loop functions
 
+bool isPointInObject(const GameObject& obj, glm::vec2 point) {
+    return point.x >= obj.position.x &&
+           point.x <= obj.position.x + obj.size.x &&
+           point.y >= obj.position.y &&
+           point.y <= obj.position.y + obj.size.y;
+}
+
 void Game::processInput(float deltaTime) {
+
+    glm::vec2 mousePos = glm::vec2(0.0f);
 
     switch (state) {
     case GameState::MAIN_MENU:
+        mousePos = window->getMouseGameCoords(Game::gameWidth, Game::gameHeight);
 
+        for (MenuButton &btn : mainMenu->buttons) {
+            if (isPointInObject(btn, mousePos)) {
+                if (window->isMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT)) {
+                    if (btn.action) {
+                        btn.action();
+                    }
+                } else {
+                    if (btn.enterMouse) {
+                        btn.enterMouse();
+                    }
+                }
+                
+                break;
+            } else {
+                if (btn.exitMouse) {
+                    btn.exitMouse();
+                }
+            }
+        }
         break;
     case GameState::PLAYING:
         if (window->isKeyPressed(GLFW_KEY_W)) {
@@ -46,6 +78,10 @@ void Game::processInput(float deltaTime) {
             world->player->setWalking(true);
         } else {
             world->player->setWalking(false);
+        }
+
+        if (window->isKeyPressed(GLFW_KEY_ESCAPE)) {
+            state = GameState::MAIN_MENU;
         }
         break;
     case GameState::PAUSED:
@@ -95,19 +131,55 @@ void Game::render() {
 // Game logic functions
 
 void Game::initMenu() {
-    mainMenu = std::make_unique<Menu>();
+    mainMenu = std::make_unique<Menu>(ResourceManager::loadAtlas(Common::getContentPath() + "/assets/menus/buttons.png", Common::getContentPath() + "/assets/menus/buttons.yml", true));
 
     glm::vec2 buttonSize = glm::vec2(100.0f, 60.0f);
 
     MenuButton button1;
-    button1.setSprite(ResourceManager::loadSprite(Common::getContentPath() + "/assets/menus/jogar.png", true));
+    button1.setAtlas(mainMenu->menuAtlas.get());
+    button1.atlasKey = "play";
     button1.size = buttonSize;
-    button1.position = glm::vec2((640.0f - buttonSize.x) / 2, 360.0f - (buttonSize.y * 2 + 30.0f));
+    button1.position = glm::vec2((Game::gameWidth - buttonSize.x) / 2, Game::gameHeight - (buttonSize.y * 2 + 30.0f));
+    button1.enterMouse = [this]() {
+        MenuButton* btn = &mainMenu->buttons.at(0);
+
+        if (btn->atlasKey != "play_1") {
+            btn->atlasKey = "play_1";
+        }
+    };
+    button1.exitMouse = [this]() {
+        MenuButton* btn = &mainMenu->buttons.at(0);
+
+        if (btn->atlasKey != "play") {
+            btn->atlasKey = "play";
+        }
+    };
+    button1.action = [this]() {
+        state = GameState::PLAYING;
+    };
 
     MenuButton button2;
-    button2.setSprite(ResourceManager::loadSprite(Common::getContentPath() + "/assets/menus/sair.png", true));
+    button2.setAtlas(mainMenu->menuAtlas.get());
+    button2.atlasKey = "quit";
     button2.size = buttonSize;
-    button2.position = glm::vec2((640.0f - buttonSize.x) / 2, 360.0f - (buttonSize.y + 20.0f));
+    button2.position = glm::vec2((Game::gameWidth - buttonSize.x) / 2, Game::gameHeight - (buttonSize.y + 20.0f));
+    button2.enterMouse = [this]() {
+        MenuButton* btn = &mainMenu->buttons.at(1);
+
+        if (btn->atlasKey != "quit_1") {
+            btn->atlasKey = "quit_1";
+        }
+    };
+    button2.exitMouse = [this]() {
+        MenuButton* btn = &mainMenu->buttons.at(1);
+
+        if (btn->atlasKey != "quit") {
+            btn->atlasKey = "quit";
+        }
+    };
+    button2.action = [this]() {
+        stop();
+    };
 
     mainMenu->buttons.push_back(std::move(button1));
     mainMenu->buttons.push_back(std::move(button2));
@@ -138,7 +210,7 @@ void Game::run() {
     Logger::log("Starting Game Loop...");
     const std::string wt = window->getTitle();
 
-    glm::mat4 projection = glm::ortho(0.0f, 640.0f, 360.0f, 0.0f, -1.0f, 1.0f); // needs to be in the same AspectRatio as the window
+    glm::mat4 projection = glm::ortho(0.0f, Game::gameWidth, Game::gameHeight, 0.0f, -1.0f, 1.0f); // needs to be in the same AspectRatio as the window
     renderer->shader->setMat4x4("projection", projection, true);
 
     auto lastTime = std::chrono::steady_clock::now();
@@ -198,11 +270,22 @@ void Game::run() {
             window->poll();
             frames++;
         }
+
+        if (m_shouldStop || window->shouldClose()) {
+            cleanup();
+        }
     }
     Logger::log("Game Loop finalized!");
 }
 
 void Game::stop() {
+    if (m_shouldStop) {
+        return;
+    }
+    m_shouldStop = true;
+}
+
+void Game::cleanup() {
     if (!m_running) {
         return;
     }
@@ -217,7 +300,7 @@ void Game::stop() {
 // "Utils" functions
 
 bool Game::isRunning() {
-    return m_running && !window->shouldClose();
+    return m_running;
 }
 
 void Game::setFramerate(int framerate) {

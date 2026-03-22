@@ -36,6 +36,8 @@ class Game {
     int fps = 0;
 
     static const float objectSize;
+    static const float gameWidth;
+    static const float gameHeight;
 
   public:
     // Starts the default variables and sets the
@@ -51,9 +53,13 @@ class Game {
     // When game loop ends, it does not necessarily
     // sets m_running to false.
     void run();
+    
+    // Tells the engine that it should stop, so after the frame is finished, it stops
+    void stop();
+
     // Stops the engine
     // Sets m_running to false
-    void stop();
+    void cleanup();
 
     bool isRunning();
 
@@ -65,6 +71,7 @@ class Game {
     std::chrono::nanoseconds m_frametime = NANOSECOND / m_framerate;
 
     bool m_running;
+    bool m_shouldStop;
     bool m_wireframe;
 
   private:
