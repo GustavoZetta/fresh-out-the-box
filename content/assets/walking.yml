@@ -20,7 +20,7 @@ animations:
         width: 1
         height: 1
   "idle":
-    fps: 6
+    fps: 3
     frames:
       - x: 0
         y: 1

@@ -1,9 +1,10 @@
 #include "core/resourcemanager.hpp"
 #include "core/util.hpp"
 
+#include "core/game.hpp"
 #include "game/player.hpp"
 
-Player::Player() : GameObject(), playerSpeed(100.0f), walking(false) {
+Player::Player() : GameObject(), playerSpeed(Game::objectSize * 2), walking(false) {
     std::unique_ptr<AnimatedSprite> animSpr = ResourceManager::loadSprite(
         Common::getContentPath() + "/assets/walking.png",
         Common::getContentPath() + "/assets/walking.yml",
@@ -12,7 +13,7 @@ Player::Player() : GameObject(), playerSpeed(100.0f), walking(false) {
     animSpr->setState("idle");
     setSprite(std::move(animSpr));
     
-    size = glm::vec2(100.0f);
+    size = glm::vec2(Game::objectSize);
 }
 
 void Player::setWalking(bool value) {

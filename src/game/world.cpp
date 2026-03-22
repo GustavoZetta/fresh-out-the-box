@@ -11,7 +11,7 @@ World::World() {
         Common::getContentPath() + "/assets/bg.png",
         false);
     bg->setSprite(std::move(staticSpr));
-    bg->size = glm::vec2(800.0f, 600.0f);
+    bg->size = glm::vec2(640.0f, 360.0f);
 
     GameObject obj;
     staticSpr = ResourceManager::loadSprite(
@@ -20,7 +20,7 @@ World::World() {
     obj.setSprite(std::move(staticSpr));
 
     obj.size = glm::vec2(100.0f);
-    obj.position = glm::vec2(400.0f, 300.0f);
+    obj.position = glm::vec2(300.0f, 200.0f);
 
     objects.emplace_back(std::move(obj));
 

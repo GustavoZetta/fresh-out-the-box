@@ -8,24 +8,27 @@
 
 #include "core/renderer/spriterenderer.hpp"
 #include "core/window.hpp"
+#include "core/menu.hpp"
 
 #include "game/world.hpp"
 
 enum class GameState {
   MAIN_MENU,
-  WORLD,
+  PLAYING,
   PAUSED,
-  CARD_FIGHT,
-  CARD_TRADE,
-  DEATH_MENU
+  GAME_OVER
 };
 
 class Game {
   public:
+    std::unique_ptr<Menu> mainMenu;
+
     std::unique_ptr<World> world;
 
     std::unique_ptr<Window> window;
     std::unique_ptr<SpriteRenderer> renderer;
+    
+    GameState state;
 
     const std::chrono::nanoseconds NANOSECOND = std::chrono::nanoseconds(1000000000i64);
     const std::chrono::nanoseconds ONE_NANO = std::chrono::nanoseconds(1);
@@ -38,6 +41,9 @@ class Game {
     // Starts the default variables and sets the
     // window title and the debug variable in the constructor.
     Game();
+
+    // Initializes the menu and puts every button in it
+    void initMenu();
 
     // Initializes window and renderer.
     void init();

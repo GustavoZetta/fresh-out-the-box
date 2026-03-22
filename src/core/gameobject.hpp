@@ -36,10 +36,11 @@ class GameObject {
   public:
     GameObject();
 
-    // These also set the sprType variable
+    // Sets the sprType variable to SpriteType::STATIC_SPRITE
     void setSprite(std::unique_ptr<StaticSprite> staticSprite);
+    // Sets the sprType variable to SpriteType::ANIMATED_SPRITE
     void setSprite(std::unique_ptr<AnimatedSprite> animatedSprite);
-
+    // Sets the sprType variable to SpriteType::TEXTURE_ATLAS
     void setAtlas(TextureAtlas *textureAtlas);
 
     unsigned int getSpriteID();
