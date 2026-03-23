@@ -7,15 +7,15 @@ World::World() {
     player = std::make_unique<Player>();
 
     bg = std::make_unique<GameObject>();
-    std::unique_ptr<StaticSprite> staticSpr = ResourceManager::loadSprite(
-        Common::getContentPath() + "/assets/bg.png",
+    std::unique_ptr<StaticSprite> staticSpr = ResourceManager::loadStaticSprite(
+        Common::getContentPath("/assets/bg.png"),
         false);
     bg->setSprite(std::move(staticSpr));
     bg->size = glm::vec2(640.0f, 360.0f);
 
     GameObject obj;
-    staticSpr = ResourceManager::loadSprite(
-        Common::getContentPath() + "/assets/enemy.png",
+    staticSpr = ResourceManager::loadStaticSprite(
+        Common::getContentPath("/assets/enemy.png"),
         true);
     obj.setSprite(std::move(staticSpr));
 
@@ -25,10 +25,9 @@ World::World() {
     objects.emplace_back(std::move(obj));
 
     scene = ResourceManager::loadScene(
-        Common::getContentPath() + "/scenes/scene1.yml",
-        ResourceManager::loadAtlas(
-            Common::getContentPath() + "/assets/tilesets/test.png",
-            Common::getContentPath() + "/assets/tilesets/test.yml",
+        Common::getContentPath("/scenes/scene1.yml"),
+        ResourceManager::loadTextureAtlas(
+            Common::getContentPath("/assets/tilesets/test.yml"),
             true));
 }
 

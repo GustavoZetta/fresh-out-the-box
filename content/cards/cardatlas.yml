@@ -1,4 +1,5 @@
 gridsize: 64
+image_path: "/assets/cards/cards.png"
 tileset:
   'fire_puncher':
     x: 0

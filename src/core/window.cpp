@@ -8,7 +8,7 @@ const float Window::aspectRatioY = 9.0f;
 Window::Window(const std::string &title, int w, int h) : m_title(title), width(w), height(h) {}
 
 void Window::init() {
-    Logger::log("Initializing window...");
+    Logger::info("Initializing window...");
     if (!glfwInit()) {
         Logger::error("GLFW could not initialize");
         return;

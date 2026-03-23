@@ -15,7 +15,7 @@
 
 // Static Sprite
 
-std::unique_ptr<StaticSprite> ResourceManager::loadSprite(const std::string &imagePath, bool alpha) {
+std::unique_ptr<StaticSprite> ResourceManager::loadStaticSprite(const std::string &imagePath, bool alpha) {
     std::unique_ptr<StaticSprite> staticSpr = std::make_unique<StaticSprite>(std::make_unique<Sprite>());
 
     if (alpha) {
@@ -41,7 +41,7 @@ std::unique_ptr<StaticSprite> ResourceManager::loadSprite(const std::string &ima
 
 // Animated Sprite
 
-std::unique_ptr<AnimatedSprite> ResourceManager::loadSprite(const std::string &imagePath, const std::string &configPath, bool alpha) {
+std::unique_ptr<AnimatedSprite> ResourceManager::loadAnimatedSprite(const std::string &configPath, bool alpha) {
     YAML::Node config = YAML::LoadFile(configPath);
 
     YAML::Node animations = config["animations"];
@@ -51,6 +51,8 @@ std::unique_ptr<AnimatedSprite> ResourceManager::loadSprite(const std::string &i
     }
 
     std::unique_ptr<AnimatedSprite> animSpr = std::make_unique<AnimatedSprite>(std::make_unique<Sprite>());
+
+    std::string imagePath = Common::getContentPath(config["image_path"].as<std::string>("/assets/unknown.png"));
 
     if (alpha) {
         animSpr->sprite->internal_format = GL_RGBA;
@@ -105,7 +107,7 @@ std::unique_ptr<AnimatedSprite> ResourceManager::loadSprite(const std::string &i
 
 // Texture Atlas
 
-std::unique_ptr<TextureAtlas> ResourceManager::loadAtlas(const std::string &imagePath, const std::string &configPath, bool alpha) {
+std::unique_ptr<TextureAtlas> ResourceManager::loadTextureAtlas(const std::string &configPath, bool alpha) {
     YAML::Node config = YAML::LoadFile(configPath);
 
     YAML::Node tilesetInfo = config["tileset"];
@@ -119,6 +121,8 @@ std::unique_ptr<TextureAtlas> ResourceManager::loadAtlas(const std::string &imag
         atlas->sprite->internal_format = GL_RGBA;
         atlas->sprite->img_format = GL_RGBA;
     }
+
+    std::string imagePath = Common::getContentPath(config["image_path"].as<std::string>("/assets/unknown.png"));
 
     int width;
     int height;

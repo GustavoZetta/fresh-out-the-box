@@ -1,5 +1,6 @@
-gridsize_x: 60 # multiplies only width and x (60 * x, 60 * width...)
-gridsize_y: 100 # multiplies only height and y (100 * y, 100 * height...)
+gridsize_x: 100 # multiplies only width and x (100 * x, 100 * width...)
+gridsize_y: 60 # multiplies only height and y (60 * y, 60 * height...)
+image_path: "/assets/menus/buttons.png"
 tileset: # These chars are used in the scene
   'play':
     x: 0

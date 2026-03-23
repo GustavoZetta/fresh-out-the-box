@@ -1,4 +1,5 @@
 gridsize: 32 # multiplies height, width, x and y (32 * x, 32 * y...)
+image_path: "/assets/tilesets/test.png"
 tileset: # These chars are used in the scene
   '#':
     x: 0

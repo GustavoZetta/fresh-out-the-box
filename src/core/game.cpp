@@ -131,7 +131,7 @@ void Game::render() {
 // Game logic functions
 
 void Game::initMenu() {
-    mainMenu = std::make_unique<Menu>(ResourceManager::loadAtlas(Common::getContentPath() + "/assets/menus/buttons.png", Common::getContentPath() + "/assets/menus/buttons.yml", true));
+    mainMenu = std::make_unique<Menu>(ResourceManager::loadTextureAtlas(Common::getContentPath("/assets/menus/buttons.yml"), true));
 
     glm::vec2 buttonSize = glm::vec2(100.0f, 60.0f);
 
