@@ -1,0 +1,52 @@
+card1: # card id (this is used if you want to get it from elsewhere)
+  name: "Fire Puncher"
+  description:
+    - "Punches so fast that his hand creates fire"
+    - "(Also, is a pretty chill guy)"
+  image: "/assets/cards/firepuncher.png"
+  base_stats:
+    attack:
+      value: 12.0
+      multiplier: 1.0
+      max_value: 100.0
+    stamina:
+      value: 100.0
+      multiplier: 1.5
+      max_value: 1000.0
+    health:
+      value: 200.0
+      multiplier: 1.2
+      max_value: 1000.0
+    defense:
+      value: 5.0
+      multiplier: 1.0
+      max_value: 30.0
+  card_type:
+    type: "fire"
+    defeats:
+      "ice":
+        attack_add: 10.0
+        attack_multiplier: 1.5
+      "water":
+        attack_add: 20.0
+        attack_multiplier: 1.75
+  card_color:
+    color: "red"
+    rgb: [ 255, 0, 0 ]
+    buffs:
+      "red":
+        attack:
+          value: 12.0
+          multiplier: 1.0
+          max_value_add: 100.0
+          max_value_multiplier: 1.5
+        stamina:
+          value: 100.0
+          multiplier: 1.5
+          max_value_add: 1000.0
+          max_value_multiplier: 1.5
+      "yellow":
+        defense:
+          value: 5.0
+          multiplier: 1.1
+          max_value_add: 20.0
