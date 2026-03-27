@@ -147,10 +147,10 @@ std::unordered_map<std::string, CardPack> ResourceManager::loadCardPacks(const s
                 pack.name = cardPackConfig.second["name"].as<std::string>("<name>");
                 pack.description = cardPackConfig.second["description"].as<std::vector<std::string>>(std::vector<std::string>{"<description>"});
 
-                std::array<int, 3> intcolor = cardPackConfig["rgb"].as<std::array<int, 3>>(std::array<int, 3>{255, 255, 255});
+                std::array<int, 3> intcolor = cardPackConfig.second["rgb"].as<std::array<int, 3>>(std::array<int, 3>{255, 255, 255});
                 pack.color = glm::vec3((float)intcolor[0] / 255, (float)intcolor[1] / 255, (float)intcolor[2] / 255);
 
-                YAML::Node cards = cardPackConfig["cards"];
+                YAML::Node cards = cardPackConfig.second["cards"];
 
                 if (cards.IsSequence()) {
                     std::vector<CardWeight> cardsWeights;
