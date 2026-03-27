@@ -132,8 +132,57 @@ std::unordered_map<std::string, Card> ResourceManager::loadCards(const std::stri
     return cardList;
 }
 
-std::unordered_map<std::string, CardPack> loadCardPacks(const std::string &configPath) {
-    std::unordered_map<std::string, CardPack> map;
+std::unordered_map<std::string, CardPack> ResourceManager::loadCardPacks(const std::string &configPath) {
+    std::unordered_map<std::string, CardPack> cardPackList;
 
-    return map;
+    YAML::Node config = YAML::LoadFile(configPath);
+
+    if (config.IsMap()) {
+        for (auto cardPackConfig : config) {
+            CardPack pack;
+
+            if (cardPackConfig.second.IsMap()) {
+                pack.id = cardPackConfig.first.as<std::string>("card");
+                
+                pack.name = cardPackConfig.second["name"].as<std::string>("<name>");
+                pack.description = cardPackConfig.second["description"].as<std::vector<std::string>>(std::vector<std::string>{"<description>"});
+
+                std::array<int, 3> intcolor = cardPackConfig["rgb"].as<std::array<int, 3>>(std::array<int, 3>{255, 255, 255});
+                pack.color = glm::vec3((float)intcolor[0] / 255, (float)intcolor[1] / 255, (float)intcolor[2] / 255);
+
+                YAML::Node cards = cardPackConfig["cards"];
+
+                if (cards.IsSequence()) {
+                    std::vector<CardWeight> cardsWeights;
+                    int totalWeights = 0;
+
+                    // Get total weights from all cards
+                    for (auto card : cards) {
+                        CardWeight weight;
+
+                        weight.id = card["id"].as<std::string>("card");
+                        weight.weight = card["weight"].as<int>(1);
+
+                        totalWeights += weight.weight;
+                        cardsWeights.push_back(std::move(weight));
+                    }
+
+                    // Calculate probabilities for all cards
+                    for (CardWeight& weight : cardsWeights) {
+                        pack.probabilities[weight.id] = (float) weight.weight / totalWeights;
+                    }
+                } else {
+                    Logger::warn("Invalid cards in card pack config: " + configPath);
+                }
+            } else {
+                Logger::warn("Invalid card pack config: " + configPath);
+            }
+
+            cardPackList[pack.id] = std::move(pack);
+        }
+    } else {
+        Logger::error("Couldn't load card config: " + configPath);
+    }
+
+    return cardPackList;
 }
