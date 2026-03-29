@@ -1,9 +1,16 @@
 #include "core/util.hpp"
 
+#include <algorithm>
+
 #include "core/renderer/particle/particleemitter.hpp"
 
-ParticleEmitter::ParticleEmitter(EmitterConfig config, int maxParticles) : config(std::move(config)) {
+ParticleEmitter::ParticleEmitter(EmitterConfig config, int maxParticles) : type(EmitterType::DEFAULT), config(std::move(config)) {
     m_particles.reserve(maxParticles);
+}
+
+void ParticleEmitter::setAtlas(TextureAtlas* a) {
+    type = EmitterType::SPRITE;
+    atlas = a;
 }
 
 void ParticleEmitter::update(float deltaTime) {
@@ -30,6 +37,10 @@ void ParticleEmitter::update(float deltaTime) {
 
         p.size = glm::mix(config.sizeEnd, config.sizeStart, t);
     }
+
+    std::sort(m_particles.begin(), m_particles.end(), [](const Particle& a, const Particle& b) {
+        return a.remainingLife < b.remainingLife;
+    });
 }
 
 std::vector<Particle> *ParticleEmitter::getParticles() {
@@ -49,7 +60,11 @@ void ParticleEmitter::emit() {
 
 Particle ParticleEmitter::createParticle() {
     Particle p;
-    p.position = config.position;
+    p.position = config.position + glm::vec2(
+        Common::randomFloat(-config.spawnRange.x, config.spawnRange.x),
+        Common::randomFloat(-config.spawnRange.y, config.spawnRange.y)
+    );
+    
     p.velocity = glm::vec2(
         Common::randomFloat(config.velocityMin.x, config.velocityMax.x),
         Common::randomFloat(config.velocityMin.y, config.velocityMax.y)

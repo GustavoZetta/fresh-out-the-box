@@ -111,47 +111,28 @@ void SpriteRenderer::drawObject(GameObject *obj) {
     glBindVertexArray(0);
 }
 
-void SpriteRenderer::drawParticles(std::vector<Particle> *particles) {
+void SpriteRenderer::drawParticles(ParticleEmitter *particleEmitter) {
     glUseProgram(shader->ID());
 
-    shader->setVec2f("uvOffset", 0.0f, false);
-    shader->setVec2f("uvSize", 1.0f, false);
+    UvInfo uv;
 
-    shader->setInt("useTexture", 0, false);
+    if (particleEmitter->type == EmitterType::SPRITE) {
+        shader->setInt("useTexture", 1, false);
 
-    glBindTexture(GL_TEXTURE_2D, 0);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, particleEmitter->atlas->sprite->ID());
 
-    for (Particle &p : *particles) {
-        if (!p.isAlive())
-            continue;
+        uv = particleEmitter->atlas->getUvInfo(particleEmitter->atlasKey);
+    } else {
+        shader->setVec2f("uvOffset", 0.0f, false);
+        shader->setVec2f("uvSize", 1.0f, false);
 
-        glm::mat4 model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(p.position, 0.0f));
-        model = glm::scale(model, glm::vec3(p.size, p.size, 1.0f));
+        shader->setInt("useTexture", 0, false);
 
-        shader->setMat4x4("model", model, false);
-        shader->setVec4f("spriteColor", p.color, false);
-
-        glBindVertexArray(m_VAO);
-
-        glDrawArrays(GL_TRIANGLES, 0, 6);
-        glBindVertexArray(0);
+        glBindTexture(GL_TEXTURE_2D, 0);
     }
-}
 
-void SpriteRenderer::drawParticles(TextureAtlas *atlas, std::string key, std::vector<Particle> *particles) {
-    glUseProgram(shader->ID());
-
-    shader->setInt("useTexture", 0, false);
-
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, atlas->sprite->ID());
-
-    glBindVertexArray(m_VAO);
-
-    UvInfo uv = atlas->getUvInfo(key);
-
-    for (Particle &p : *particles) {
+    for (Particle &p : *particleEmitter->getParticles()) {
         if (!p.isAlive())
             continue;
 
@@ -162,8 +143,10 @@ void SpriteRenderer::drawParticles(TextureAtlas *atlas, std::string key, std::ve
         shader->setMat4x4("model", model, false);
         shader->setVec4f("spriteColor", p.color, false);
 
-        shader->setVec2f("uvOffset", uv.uvOffset, false);
-        shader->setVec2f("uvSize", uv.uvSize, false);
+        if (particleEmitter->type == EmitterType::SPRITE) {
+            shader->setVec2f("uvOffset", uv.uvOffset, false);
+            shader->setVec2f("uvSize", uv.uvSize, false);
+        }
 
         glBindVertexArray(m_VAO);
         glDrawArrays(GL_TRIANGLES, 0, 6);

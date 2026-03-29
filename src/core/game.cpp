@@ -119,7 +119,7 @@ void Game::render() {
         renderer->drawObject(world->player.get());
         
         for (ParticleEmitter &emitter : world->emitters) {
-            renderer->drawParticles(emitter.getParticles());
+            renderer->drawParticles(&emitter);
         }
 
         break;

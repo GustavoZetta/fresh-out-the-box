@@ -22,6 +22,8 @@ class World {
     std::vector<ParticleEmitter> emitters;
 
     std::unique_ptr<TextureAtlas> cardAtlas;
+    std::unique_ptr<TextureAtlas> particleAtlas;
+    
     std::unordered_map<std::string, Card> cards;
     std::unordered_map<std::string, CardPack> cardPacks;
 

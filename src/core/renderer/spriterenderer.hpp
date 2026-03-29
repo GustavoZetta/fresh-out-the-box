@@ -22,8 +22,7 @@ class SpriteRenderer {
     void createScreen();              // Creates the VBO & VAO used to render
     void drawObject(GameObject *obj); // Draws to the screen the data from a game object
 
-    void drawParticles(std::vector<Particle> *particles);                                       // Draws to the screen the data from the particles
-    void drawParticles(TextureAtlas *atlas, std::string key, std::vector<Particle> *particles); // Draws to the screen the data from the particles rendered as with sprites
+    void drawParticles(ParticleEmitter *particleEmitter); // Draws to the screen the data from the particles
 
     // Inits with a shader created by the ResourceManager
     void init(Shader s);

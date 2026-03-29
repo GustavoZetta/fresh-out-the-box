@@ -1,0 +1,8 @@
+gridsize: 16
+image_path: "/assets/particle.png"
+tileset:
+  "ball":
+    x: 0
+    y: 0
+    height: 1
+    width: 1

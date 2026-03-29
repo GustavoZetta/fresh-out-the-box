@@ -5,9 +5,16 @@
 #include <vector>
 
 #include "core/renderer/particle/particle.hpp"
+#include "core/renderer/sprite/textureatlas.hpp"
+
+enum class EmitterType {
+    DEFAULT,
+    SPRITE
+};
 
 struct EmitterConfig {
     glm::vec2 position;
+    glm::vec2 spawnRange;
     glm::vec2 velocityMin;
     glm::vec2 velocityMax;
     glm::vec2 acceleration;
@@ -22,6 +29,11 @@ struct EmitterConfig {
 
 class ParticleEmitter {
   public:
+    EmitterType type;
+
+    TextureAtlas *atlas;
+    std::string atlasKey;
+
     EmitterConfig config;
     bool active = true;
 
@@ -32,9 +44,11 @@ class ParticleEmitter {
   public:
     ParticleEmitter(EmitterConfig config, int maxParticles);
 
+    void setAtlas(TextureAtlas *atlas);
+
     void update(float deltaTime);
 
-    std::vector<Particle>* getParticles();
+    std::vector<Particle> *getParticles();
 
   private:
     void emit();
