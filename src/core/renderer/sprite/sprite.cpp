@@ -1,6 +1,6 @@
 #include "core/util.hpp"
 
-#include "core/renderer/sprite.hpp"
+#include "core/renderer/sprite/sprite.hpp"
 
 Sprite::Sprite() : m_id(0), width(0), height(0), internal_format(GL_RGB), img_format(GL_RGB), min_filter_mode(GL_NEAREST), max_filter_mode(GL_NEAREST), wrap_mode_s(GL_REPEAT), wrap_mode_t(GL_REPEAT) {}
 Sprite::~Sprite() {

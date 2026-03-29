@@ -4,9 +4,9 @@
 #include <string>
 #include <unordered_map>
 
-#include "core/renderer/uvinfo.hpp"
+#include "core/renderer/sprite/uvinfo.hpp"
 
-#include "core/renderer/sprite.hpp"
+#include "core/renderer/sprite/sprite.hpp"
 
 // Expects you to initialize the sprite
 class TextureAtlas {

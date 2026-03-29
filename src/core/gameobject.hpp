@@ -4,9 +4,9 @@
 
 #include <memory>
 
-#include "core/renderer/animatedsprite.hpp"
-#include "core/renderer/staticsprite.hpp"
-#include "core/renderer/textureatlas.hpp"
+#include "core/renderer/sprite/animatedsprite.hpp"
+#include "core/renderer/sprite/staticsprite.hpp"
+#include "core/renderer/sprite/textureatlas.hpp"
 
 enum class SpriteType {
   STATIC_SPRITE,
@@ -24,7 +24,7 @@ class GameObject {
     TextureAtlas* textureAtlas;
     std::string atlasKey;
 
-    glm::vec3 color;
+    glm::vec4 color;
 
     glm::vec2 position;
     glm::vec2 size;

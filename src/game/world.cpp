@@ -35,6 +35,26 @@ World::World() {
     cardAtlas = ResourceManager::loadTextureAtlas(Common::getContentPath("/cards/cardatlas.yml"), true);
 
     cards = std::move(ResourceManager::loadCards(Common::getContentPath("/cards/card.yml"), cardAtlas.get()));
+
+    cardPacks = std::move(ResourceManager::loadCardPacks(Common::getContentPath("/cards/cardpack.yml")));
+
+    EmitterConfig config;
+
+    config.acceleration = glm::vec2(0.0f, 0.0f);
+    config.position = glm::vec2(400.0f, 300.0f);
+    config.velocityMin = glm::vec2(-20.0f, -80.0f);
+    config.velocityMax = glm::vec2(20.0f, -40.0f);
+    config.colorStart = glm::vec4(1.0f, 0.5f, 0.0f, 1.0f);
+    config.colorEnd = glm::vec4(1.0f, 0.0f, 0.0f, 0.0f);
+    config.lifetimeMin = 0.5f;
+    config.lifetimeMax = 1.5f;
+    config.sizeStart = 10.0f;
+    config.sizeEnd = 2.0f;
+    config.emitRate = 500;
+
+    ParticleEmitter emitter(config, 1000);
+
+    emitters.push_back(std::move(emitter));
 }
 
 void World::update(float deltaTime) {
@@ -43,4 +63,11 @@ void World::update(float deltaTime) {
     for (GameObject &obj : objects) {
         obj.update(deltaTime);
     }
+    for (ParticleEmitter &emitter : emitters) {
+        emitter.update(deltaTime);
+    }
+}
+
+std::string World::rollCardPack(std::string cardPackId) {
+    return std::string("test");
 }

@@ -8,8 +8,9 @@
 #include <memory>
 
 #include "core/gameobject.hpp"
+#include "core/renderer/particle/particleemitter.hpp"
 #include "core/renderer/shader.hpp"
-#include "core/renderer/sprite.hpp"
+#include "core/renderer/sprite/sprite.hpp"
 
 class SpriteRenderer {
   public:
@@ -18,8 +19,11 @@ class SpriteRenderer {
   public:
     SpriteRenderer();
 
-    void createScreen(); // Creates the VBO & VAO used to render
-    void drawObject(GameObject *obj); // Draws the data from a game object
+    void createScreen();              // Creates the VBO & VAO used to render
+    void drawObject(GameObject *obj); // Draws to the screen the data from a game object
+
+    void drawParticles(std::vector<Particle> *particles);                                       // Draws to the screen the data from the particles
+    void drawParticles(TextureAtlas *atlas, std::string key, std::vector<Particle> *particles); // Draws to the screen the data from the particles rendered as with sprites
 
     // Inits with a shader created by the ResourceManager
     void init(Shader s);

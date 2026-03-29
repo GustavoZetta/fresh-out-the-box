@@ -1,4 +1,4 @@
-#include "core/renderer/textureatlas.hpp"
+#include "core/renderer/sprite/textureatlas.hpp"
 
 TextureAtlas::TextureAtlas(std::unique_ptr<Sprite> spr) {
     sprite = std::move(spr);

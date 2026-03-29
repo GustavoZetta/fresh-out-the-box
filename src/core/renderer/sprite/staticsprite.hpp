@@ -4,7 +4,7 @@
 
 #include <memory>
 
-#include "core/renderer/sprite.hpp"
+#include "core/renderer/sprite/sprite.hpp"
 
 // Expects you to initialize the sprite
 class StaticSprite {

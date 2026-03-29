@@ -117,6 +117,10 @@ void Game::render() {
             renderer->drawObject(&obj);
         }
         renderer->drawObject(world->player.get());
+        
+        for (ParticleEmitter &emitter : world->emitters) {
+            renderer->drawParticles(emitter.getParticles());
+        }
 
         break;
     case GameState::PAUSED:

@@ -2,22 +2,24 @@
 
 #include <string>
 
-struct Common {
-    static std::string getContentPath();
-    static std::string Common::getContentPath(const std::string &path);
-    static std::string toUpperCase(std::string str);
-    static std::string toLowerCase(std::string str);
-};
+namespace Common {
+    std::string getContentPath();
+    std::string getContentPath(const std::string &path);
+    std::string toUpperCase(std::string str);
+    std::string toLowerCase(std::string str);
+
+    float randomFloat(float min, float max);
+}; // namespace Common
 
 // TODO: more robust logging
-struct Logger {
+namespace Logger {
     static const bool canLog = true;
     static const bool canInfo = true;
     static const bool canWarn = true;
     static const bool canError = true;
 
-    static void log(std::string message);
-    static void info(std::string message);
-    static void warn(std::string message);
-    static void error(std::string message);
-};
+    void log(std::string message);
+    void info(std::string message);
+    void warn(std::string message);
+    void error(std::string message);
+}; // namespace Logger

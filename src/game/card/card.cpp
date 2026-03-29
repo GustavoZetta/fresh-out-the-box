@@ -4,8 +4,6 @@
 
 std::string CardInfo::cardValueTypeAsString(CardValueType type) {
     switch (type) {
-    case CardValueType::BASE:
-        return "BASE";
     case CardValueType::ATTACK:
         return "ATTACK";
     case CardValueType::STAMINA:
@@ -14,7 +12,9 @@ std::string CardInfo::cardValueTypeAsString(CardValueType type) {
         return "HEALTH";
     case CardValueType::DEFENSE:
         return "DEFENSE";
-    } 
+    }
+
+    return "BASE";
 }
 
 CardValueType CardInfo::cardValueTypeFromString(const std::string &type) {
@@ -28,7 +28,7 @@ CardValueType CardInfo::cardValueTypeFromString(const std::string &type) {
         return CardValueType::HEALTH;
     } else if (str == "DEFENSE") {
         return CardValueType::DEFENSE;
-    } else {
-        return CardValueType::BASE;
     }
+
+    return CardValueType::BASE;
 }

@@ -1,6 +1,6 @@
 #include "core/util.hpp"
 
-#include "core/renderer/animatedsprite.hpp"
+#include "core/renderer/sprite/animatedsprite.hpp"
 
 AnimatedSprite::AnimatedSprite(std::unique_ptr<Sprite> spr)
     : m_currentFrame(0), m_timer(0.0f), m_frameDuration(0.0f) {

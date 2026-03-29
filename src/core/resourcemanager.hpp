@@ -1,9 +1,11 @@
 #pragma once
 
-#include "core/renderer/animatedsprite.hpp"
 #include "core/renderer/shader.hpp"
-#include "core/renderer/staticsprite.hpp"
-#include "core/renderer/textureatlas.hpp"
+
+#include "core/renderer/sprite/animatedsprite.hpp"
+#include "core/renderer/sprite/staticsprite.hpp"
+#include "core/renderer/sprite/textureatlas.hpp"
+
 #include "core/scene.hpp"
 
 namespace ResourceManager {
@@ -15,4 +17,4 @@ namespace ResourceManager {
     Shader loadShader(const std::string &vertexPath, const std::string &fragmentPath);
 
     std::string getTextFromFile(const std::string &vertexPath);
-};
+}; // namespace ResourceManager

@@ -2,7 +2,7 @@
 
 #include <glm/common.hpp>
 
-#include "core/renderer/textureatlas.hpp"
+#include "core/renderer/sprite/textureatlas.hpp"
 
 enum class CardValueType {
     BASE, // Basically null card value type
